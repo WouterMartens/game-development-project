@@ -1,0 +1,20 @@
+{
+  "name": "tbd",
+  "version": "0.0.1",
+  "main": "app.js",
+  "repository": "git@github.com:HZ-HBO-ICT/ts-skeleton-app.git",
+  "author": "Angélique Huige, Dylan Jongepier, Mart de Jager, Wouter Martens",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc-watch "
+  },
+  "devDependencies": {
+    "tsc-watch": "^4.0",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "phaser": "^3.21.0"
+  }
+}

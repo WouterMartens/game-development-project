@@ -1,18 +1,22 @@
 {
-  "name": "tbd",
+  "name": "phaser-test",
   "version": "0.0.1",
-  "main": "app.js",
-  "repository": "git@github.com:WouterMartens/game-development-project",
-  "author": "Angélique Huige, Dylan Jongepier, Mart de Jager, Wouter Martens",
+  "description": "test",
+  "main": "index.js",
+  "author": "me",
   "license": "MIT",
   "private": true,
-  "scripts": {
-    "build": "tsc",
-    "watch": "tsc-watch "
-  },
   "devDependencies": {
-    "tsc-watch": "^4.0",
-    "typescript": "^3.7.3"
+    "copy-webpack-plugin": "^5.1.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.3",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server"
   },
   "dependencies": {
     "phaser": "^3.21.0"

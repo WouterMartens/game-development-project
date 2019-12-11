@@ -1,18 +1,14 @@
-# System and IDE files
-Thumbs.db
-.DS_Store
-.idea
-*.suo
-*.sublime-project
-*.sublime-workspace
+#OSX
+#-------------------------------------------------------------------------------
+.DS_STORE
 
-# Vendors
-node_modules/
 
-# Build
+#General
+#-------------------------------------------------------------------------------
 dist/
-/npm-debug.log
+node_modules/
+.vscode
+yarn.lock
 
-# Compressed
 *.zip
 *.rar

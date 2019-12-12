@@ -1,9 +1,11 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "sourceMap": true,
-    "noImplicitAny": false,
-    "strict": false
+    "compilerOptions": {
+      "target": "es6",
+      "sourceMap": true,
+      "strict": true,
+      "moduleResolution": "node"
+    },
+    "include": [
+      "**/*.ts"
+    ]
   }
-}

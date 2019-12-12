@@ -1,30 +1,67 @@
-var path = require("path");
-var pathToPhaser = path.join(__dirname, "/node_modules/phaser/");
-var phaser = path.join(pathToPhaser, "dist/phaser.js");
+const path = require('path');
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: "./src/boilerplate/game.ts",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+  entry: {
+    app: './src/main.ts',
+    vendors: ['phaser']
   },
+
   module: {
     rules: [
-      { test: /\.ts$/, loader: "ts-loader", exclude: "/node_modules/" },
-      { test: /phaser\.js$/, loader: "expose-loader?Phaser" }
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
     ]
   },
-  devServer: {
-    contentBase: path.resolve(__dirname, "./"),
-    publicPath: "/dist/",
-    host: "127.0.0.1",
-    port: 8080,
-    open: true
-  },
+
+  devtool: 'inline-source-map',
+
   resolve: {
-    extensions: [".ts", ".js"],
-    alias: {
-      phaser: phaser
+    extensions: [ '.ts', '.tsx', '.js' ]
+  },
+
+  output: {
+    filename: 'app.bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+
+  mode: 'development',
+
+  devServer: {
+    contentBase: path.resolve(__dirname, 'dist'),
+    https: true
+  },
+
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, 'index.html'),
+        to: path.resolve(__dirname, 'dist')
+      },
+      {
+        from: path.resolve(__dirname, 'assets', '**', '*'),
+        to: path.resolve(__dirname, 'dist')
+      }
+    ]),
+    new webpack.DefinePlugin({
+      'typeof CANVAS_RENDERER': JSON.stringify(true),
+      'typeof WEBGL_RENDERER': JSON.stringify(true)
+    }),
+  ],
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
     }
   }
 };

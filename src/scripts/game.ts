@@ -20,7 +20,7 @@ const config: GameConfig = {
 		height: DEFAULT_HEIGHT
 	},
 	//scene: [PreloadScene, DemoScene, StartScene, LevelScene, EndScene],
-	scene: [LevelScene],
+	scene: [StartScene, LevelScene],
 	physics: {
 		default: 'arcade',
 		arcade: {

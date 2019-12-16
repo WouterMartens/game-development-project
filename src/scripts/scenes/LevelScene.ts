@@ -25,13 +25,11 @@ export default class LevelScene extends Phaser.Scene {
 		});
 
 		this.physics.world.enableBody(this.player, 0);
+
+		console.log(this.player);
 	}
 
 	update(): void {
 		this.player.update();
-
-		this.physics.world.on('worldbounds', function(body){
-			console.log('hello from the edge of the world', body);
-		}, this);
 	}
 } 

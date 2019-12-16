@@ -14,7 +14,7 @@ export default class LevelScene extends Phaser.Scene {
 	}
 
 	create(): void {
-		// this.physics.start
+		// this.physics.world.setBounds(0, 0, this.sys.game.canvas.width, this.sys.game.canvas.height, true, true, true, true);
 
 		// this.add.image(400, 300, 'sprite');
 		this.player = new Player({
@@ -24,10 +24,14 @@ export default class LevelScene extends Phaser.Scene {
 			key: 'sprite'
 		});
 
-		// this.player.body.collideWorldBounds = true;
+		this.physics.world.enableBody(this.player, 0);
 	}
 
 	update(): void {
 		this.player.update();
+
+		this.physics.world.on('worldbounds', function(body){
+			console.log('hello from the edge of the world', body);
+		}, this);
 	}
 } 

@@ -20,12 +20,13 @@ const config: GameConfig = {
 		height: DEFAULT_HEIGHT
 	},
 	//scene: [PreloadScene, DemoScene, StartScene, LevelScene, EndScene],
-	scene: [StartScene, LevelScene],
+	//scene: [StartScene, LevelScene],
+	scene: [LevelScene],
 	physics: {
 		default: 'arcade',
 		arcade: {
 			debug: true,
-			gravity: { y: 400 }
+			// gravity: { y: 400 }
 		}
 	}
 };

@@ -32,7 +32,7 @@ export default class StartScene extends Phaser.Scene {
     create(): void {
         // Brick wall background
         const background = this.add.image(this.sys.game.canvas.width / 2, 0, "background")
-        .setOrigin(0.5, 0);
+            .setOrigin(0.5, 0);
 
         // Title image
         const title = this.add.image(this.sys.game.canvas.width / 2, 50, "title")
@@ -44,9 +44,9 @@ export default class StartScene extends Phaser.Scene {
 
         // Add ghost image
         const ghost = this.add.image(this.sys.game.canvas.width / 2, 200, "ghost")
-        .setOrigin(0.5, 0);
+            .setOrigin(0.5, 0);
         ghost.setScale(0.4);
-      }
+    }
 
       update(): void {
           // Push S to start playing

@@ -10,14 +10,14 @@ export default class LevelScene extends Phaser.Scene {
 	}
 
 	preload(): void {
-		this.load.image('background', 'assets/img/room-1.png');
+		this.load.image('room1', 'assets/img/room-1.png');
 		this.load.image('pedestrian', 'assets/img/pedestrian.png');
 		this.load.image('sprite', 'assets/img/sprite.jpg');
 		this.load.image('thumb', 'assets/img/thumbs-up.png');
 	}
 
 	create(): void {
-		const background = this.add.image(0, 0, 'background').setOrigin(0, 0);
+		const room1 = this.add.image(0, 0, 'room1').setOrigin(0, 0);
 
 		this.player = new Player({
 			scene: this,

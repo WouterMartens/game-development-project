@@ -1,5 +1,9 @@
 export default class StartScene extends Phaser.Scene {
     private startKey: Phaser.Input.Keyboard.Key;
+    private timer: number;
+    private startText: Phaser.GameObjects.BitmapText;
+    private lastBlinkTime: number;
+
     constructor() {
         super({ key: 'StartScene' });
     }
@@ -10,6 +14,10 @@ export default class StartScene extends Phaser.Scene {
             Phaser.Input.Keyboard.KeyCodes.S
         );
         this.startKey.isDown = false;
+
+        this.timer = 0;
+
+        this.lastBlinkTime = 0;
     }
 
     preload(): void {
@@ -38,9 +46,9 @@ export default class StartScene extends Phaser.Scene {
         // Title image
         const title = this.add.image(this.sys.game.canvas.width / 2, 50, "title")
             .setOrigin(0.5, 0);
-
+    
         // Subtitle
-        const buttonText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
+        this.startText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
             .setOrigin(0.5, 0);
 
         // Add ghost image
@@ -82,5 +90,13 @@ export default class StartScene extends Phaser.Scene {
         if (this.startKey.isDown) {
             this.scene.start("LevelScene");
         }
+
+        // To make the start text blink
+        if (this.game.getTime() > this.lastBlinkTime + 500) {
+            this.startText.setVisible(!this.startText.visible);
+            this.lastBlinkTime = this.game.getTime();
+        }         
+             
+        
     }
-}
+    }

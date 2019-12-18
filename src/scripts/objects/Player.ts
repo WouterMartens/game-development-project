@@ -1,5 +1,6 @@
 import Projectile from '../objects/projectile'
 
+
 export default class Player extends Phaser.Physics.Arcade.Image {
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
     private keyLeft: Phaser.Input.Keyboard.Key;

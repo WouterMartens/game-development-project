@@ -15,7 +15,7 @@ export default class StartScene extends Phaser.Scene {
         );
         this.startKey.isDown = false;
 
-        this.lastBlinkTime = -1;
+        this.lastBlinkTime = 0;
     }
 
     preload(): void {

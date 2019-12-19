@@ -149,7 +149,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
 
     public gainHealth(player: any, item: any) {
         player.health += 20;
-        item.disableBody(true, true);
+        item.destroy(true, true);
         console.log(player.health);
     }
 }

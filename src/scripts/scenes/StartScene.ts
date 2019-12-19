@@ -28,7 +28,7 @@ export default class StartScene extends Phaser.Scene {
         this.load.image("title", "assets/img/title.png");
 
         // Loads image for background
-        this.load.image("background", "assets/img/please.png"); //the background image for the scene
+        this.load.image("background", "assets/img/dungeonbg.jpg"); //the background image for the scene
 
         // Loads custom bitmap font
         this.load.bitmapFont("dungeonFont", "assets/font/TheDungeonFont.png", "assets/font/TheDungeonFont.fnt");
@@ -56,6 +56,25 @@ export default class StartScene extends Phaser.Scene {
             .setOrigin(0.5, 0);
         ghost.setScale(0.4);
 
+        this.tweens.add({
+            targets: ghost,
+            y: 250,
+            ease: "Sine.easeInOut",
+            yoyo: true,
+            repeat: -1,
+            duration: 2000,
+            alpha: 0,
+        });
+
+        this.tweens.add({
+            targets: ghost,
+            ease: "Linear",
+            yoyo: true,
+            repeat: -1,
+            duration: 5000,
+            alpha: 0
+        })
+
         // Torches
         //const keys: string[] = ['Front', 'Side'];
         const keys: string[] = ['Front', 'Front'];
@@ -72,9 +91,9 @@ export default class StartScene extends Phaser.Scene {
             let x = 0;
             let start = 0;
             if (i === 0) {
-                x = 400;
+                x = 200;
             } else {
-                x = this.sys.game.canvas.width - 400;
+                x = this.sys.game.canvas.width - 200;
                 start = 2;
             }
             const boom = this.add.sprite(x, 300, 'torch' + key + 'Sprite');

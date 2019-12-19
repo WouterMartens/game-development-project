@@ -1,4 +1,5 @@
 import ThumbsUp from './ThumbsUp';
+import Pickup from './Pickup';
 
 export default class Player extends Phaser.Physics.Arcade.Image {
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -140,11 +141,11 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     }
 
     /**
-     * Checks if the player just bounced
-     * @param value Did the player just bounce from something
+     * Handles the player when hit
      */
-    private setJustBounced(value: boolean) {
-        this.justBounced = value;
+    public hit(player: any, enemy: any) {
+        player.health -= 20;
+        console.log(player.health);
     }
 
     /**
@@ -156,5 +157,13 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         player.health += 20;
         item.destroy();
         console.log(player.health);
+    }
+
+    /**
+     * Checks if the player just bounced
+     * @param value Did the player just bounce from something
+     */
+    private setJustBounced(value: boolean) {
+        this.justBounced = value;
     }
 }

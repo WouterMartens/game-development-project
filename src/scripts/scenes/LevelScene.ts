@@ -1,13 +1,14 @@
 import Player from '../objects/Player';
 import Item from '../objects/Pickup';
 import Projectile from '../objects/ThumbsUp';
+import Enemy from '../objects/Enemy';
 
 export default class LevelScene extends Phaser.Scene {
 	private player: Player;
-	private items: Phaser.GameObjects.Group;
 
-	public test: number;
+	private items: Phaser.GameObjects.Group;
 	public projectiles: Phaser.GameObjects.Group;
+	public enemies: Phaser.GameObjects.Group;
 
 	constructor() {
 		super({ key: 'LevelScene' });
@@ -16,6 +17,7 @@ export default class LevelScene extends Phaser.Scene {
 	init(): void {
 		this.items = this.add.group({ classType: Item });
 		this.projectiles = this.add.group( { classType: Projectile });
+		this.enemies = this.add.group({ classType: Enemy });
 	}
 
 	preload(): void {
@@ -24,6 +26,7 @@ export default class LevelScene extends Phaser.Scene {
 		this.load.image('sprite', 'assets/img/sprite.jpg');
 		this.load.image('thumb', 'assets/img/thumbs-up.png');
 		this.load.image('health', 'assets/img/candy.png');
+		this.load.image('happy', 'assets/img/happy.png');
 	}
 
 	create(): void {
@@ -36,7 +39,12 @@ export default class LevelScene extends Phaser.Scene {
 			key: 'health'
 		}));
 
-		console.log(this.items);
+		this.enemies.add(new Enemy({
+			scene: this,
+			x: 500,
+			y: 200,
+			key: 'happy'
+		}));
 
 		this.player = new Player({
 			scene: this,
@@ -45,18 +53,18 @@ export default class LevelScene extends Phaser.Scene {
 			key: 'pedestrian'
 		});
 
-		this.physics.world.enableBody(this.player, 0);
+		// this.physics.world.enableBody(this.player, 0);
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
+		this.physics.add.collider(this.player, this.enemies, this.player.hit);
+		this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
 	}
 
 	update(): void {
-		// this.items.forEach(item => {
-		// 	item.update();
-		// });
 		this.player.update();
-
-		this.game.getTime();
+		this.projectiles.children.each(child => {
+			child.update();
+		});
 	}
 } 

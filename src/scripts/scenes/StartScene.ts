@@ -96,10 +96,7 @@ export default class StartScene extends Phaser.Scene {
             }
             const boom = this.add.sprite(x, 300, 'torch' + key + 'Sprite');
             boom.anims.play('torch' + key, true, start);
-        });
-
-
-        
+        });     
     }
 
     update(): void {

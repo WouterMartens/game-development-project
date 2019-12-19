@@ -1,6 +1,7 @@
 export default class StartScene extends Phaser.Scene {
     private startKey: Phaser.Input.Keyboard.Key;
-    private buttonText: Phaser.GameObjects.BitmapText;
+    private timer: number;
+    private startText: Phaser.GameObjects.BitmapText;
     private lastBlinkTime: number;
 
     constructor() {
@@ -25,7 +26,7 @@ export default class StartScene extends Phaser.Scene {
         this.load.image("title", "assets/img/title.png");
 
         // Loads image for background
-        this.load.image("background", "assets/img/please.png"); //the background image for the scene
+        this.load.image("background", "assets/img/dungeonbg.jpg"); //the background image for the scene
 
         // Loads custom bitmap font
         this.load.bitmapFont("dungeonFont", "assets/font/TheDungeonFont.png", "assets/font/TheDungeonFont.fnt");
@@ -43,18 +44,34 @@ export default class StartScene extends Phaser.Scene {
         // Title image
         const title = this.add.image(this.sys.game.canvas.width / 2, 50, "title")
             .setOrigin(0.5, 0);
-
+    
         // Subtitle
-        // const buttonText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
-            // .setOrigin(0.5, 0);
-
-        this.buttonText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
-        .setOrigin(0.5, 0);
+        this.startText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
+            .setOrigin(0.5, 0);
 
         // Add ghost image
         const ghost = this.add.image(this.sys.game.canvas.width / 2, 200, "ghost")
             .setOrigin(0.5, 0);
         ghost.setScale(0.4);
+
+        this.tweens.add({
+            targets: ghost,
+            y: 250,
+            ease: "Sine.easeInOut",
+            yoyo: true,
+            repeat: -1,
+            duration: 2000,
+            alpha: 0,
+        });
+
+        this.tweens.add({
+            targets: ghost,
+            ease: "Linear",
+            yoyo: true,
+            repeat: -1,
+            duration: 5000,
+            alpha: 0
+        })
 
         // Torches
         //const keys: string[] = ['Front', 'Side'];
@@ -72,9 +89,9 @@ export default class StartScene extends Phaser.Scene {
             let x = 0;
             let start = 0;
             if (i === 0) {
-                x = 400;
+                x = 200;
             } else {
-                x = this.game.canvas.width - 400;
+                x = this.sys.game.canvas.width - 200;
                 start = 2;
             }
             const boom = this.add.sprite(x, 300, 'torch' + key + 'Sprite');
@@ -91,9 +108,10 @@ export default class StartScene extends Phaser.Scene {
             this.scene.start("LevelScene");
         }
 
+        // To make the start text blink
         if (this.game.getTime() > this.lastBlinkTime + 500) {
-            this.buttonText.setVisible(!this.buttonText.visible);
+            this.startText.setVisible(!this.startText.visible);
             this.lastBlinkTime = this.game.getTime();
-        }
+        }         
     }
 }

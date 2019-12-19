@@ -147,9 +147,14 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         this.justBounced = value;
     }
 
+    /**
+     * Gains 20 health when picking up an item, then destroys the item
+     * @param player Player object colliding with
+     * @param item object out of items
+     */
     public gainHealth(player: any, item: any) {
         player.health += 20;
-        item.disableBody(true, true);
+        item.destroy();
         console.log(player.health);
     }
 }

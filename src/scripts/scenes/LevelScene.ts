@@ -1,16 +1,21 @@
 import Player from '../objects/Player';
 import Item from '../objects/Pickup';
+import Projectile from '../objects/ThumbsUp';
 
 export default class LevelScene extends Phaser.Scene {
-	private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-	private keyLeft: Phaser.Input.Keyboard.Key;
 	private player: Player;
 	private items: Phaser.GameObjects.Group;
 
+	public test: number;
+	public projectiles: Phaser.GameObjects.Group;
+
 	constructor() {
 		super({ key: 'LevelScene' });
+	}
 
-		// this.items = this.add.group({ classType: Item });
+	init(): void {
+		this.items = this.add.group({ classType: Item });
+		this.projectiles = this.add.group( { classType: Projectile });
 	}
 
 	preload(): void {
@@ -24,12 +29,14 @@ export default class LevelScene extends Phaser.Scene {
 	create(): void {
 		const room1 = this.add.image(0, 0, 'room1').setOrigin(0, 0);
 
-		// this.items.add(new Item({
-		// 	scene: this,
-		// 	x: 200,
-		// 	y: 500,
-		// 	key: 'health'
-		// }));
+		this.items.add(new Item({
+			scene: this,
+			x: 200,
+			y: 500,
+			key: 'health'
+		}));
+
+		console.log(this.items);
 
 		this.player = new Player({
 			scene: this,
@@ -41,7 +48,7 @@ export default class LevelScene extends Phaser.Scene {
 		this.physics.world.enableBody(this.player, 0);
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 
-		console.log(this.player);
+		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
 	}
 
 	update(): void {
@@ -49,7 +56,6 @@ export default class LevelScene extends Phaser.Scene {
 		// 	item.update();
 		// });
 		this.player.update();
-
 
 		this.game.getTime();
 	}

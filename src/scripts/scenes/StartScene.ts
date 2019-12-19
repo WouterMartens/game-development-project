@@ -1,5 +1,8 @@
 export default class StartScene extends Phaser.Scene {
     private startKey: Phaser.Input.Keyboard.Key;
+    private buttonText: Phaser.GameObjects.BitmapText;
+    private lastBlinkTime: number;
+
     constructor() {
         super({ key: 'StartScene' });
     }
@@ -10,6 +13,8 @@ export default class StartScene extends Phaser.Scene {
             Phaser.Input.Keyboard.KeyCodes.S
         );
         this.startKey.isDown = false;
+
+        this.lastBlinkTime = -1;
     }
 
     preload(): void {
@@ -40,8 +45,11 @@ export default class StartScene extends Phaser.Scene {
             .setOrigin(0.5, 0);
 
         // Subtitle
-        const buttonText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
-            .setOrigin(0.5, 0);
+        // const buttonText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
+            // .setOrigin(0.5, 0);
+
+        this.buttonText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
+        .setOrigin(0.5, 0);
 
         // Add ghost image
         const ghost = this.add.image(this.sys.game.canvas.width / 2, 200, "ghost")
@@ -66,7 +74,7 @@ export default class StartScene extends Phaser.Scene {
             if (i === 0) {
                 x = 400;
             } else {
-                x = this.sys.game.canvas.width - 400;
+                x = this.game.canvas.width - 400;
                 start = 2;
             }
             const boom = this.add.sprite(x, 300, 'torch' + key + 'Sprite');
@@ -81,6 +89,11 @@ export default class StartScene extends Phaser.Scene {
         // Push S to start playing
         if (this.startKey.isDown) {
             this.scene.start("LevelScene");
+        }
+
+        if (this.game.getTime() > this.lastBlinkTime + 500) {
+            this.buttonText.setVisible(!this.buttonText.visible);
+            this.lastBlinkTime = this.game.getTime();
         }
     }
 }

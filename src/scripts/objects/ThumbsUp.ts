@@ -1,4 +1,4 @@
-export default class Projectile extends Phaser.Physics.Arcade.Image {
+export default class ThumbsUp extends Phaser.Physics.Arcade.Image {
     constructor(params: any, angle: number) {
         super(params.scene, params.x, params.y, params.key, params.frame);
 

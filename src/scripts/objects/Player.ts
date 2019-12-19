@@ -1,4 +1,4 @@
-import Projectile from '../objects/projectile'
+import ThumbsUp from './ThumbsUp';
 
 export default class Player extends Phaser.Physics.Arcade.Image {
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -11,6 +11,12 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     private justBounced: boolean;
     private lastShotTime: number;
 
+    private health: number;
+
+    /**
+     * Passes the given parameters to the super class and creates the player
+     * @param params Phaser.Physics.Arcade.Image config object
+     */
     constructor(params: any) {
         // Not sure about params.key since it's an Arcade.Image object now (as opposed to GameObject.Image)
         super(params.scene, params.x, params.y, params.key, params.frame);
@@ -32,20 +38,23 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         this.moveVelocity = 200;
         this.justBounced = false;
         this.lastShotTime = -1;
+
+        this.health = 100;
     }
 
     update(): void {
         this.inputListener();
 
         const callback = () => {
-            // console.log('hi');
             this.setJustBounced(true);
             const timedEvent = this.scene.time.delayedCall(200, this.setJustBounced, [false], this);
         }
         this.scene.physics.world.on('worldbounds', callback);
-        // console.log(this.justBounced); 
     }
 
+    /**
+     * Creates the required input listeners for the game
+     */
     private initScene() {
         this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.keyUp = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -54,6 +63,9 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         this.keyRight = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
 
+    /**
+     * Listens to the required inputs for the game
+     */
     private inputListener(): void {
         if (!this.justBounced) {
             if (this.keyLeft.isDown) {
@@ -104,30 +116,40 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         }
     }
 
+    /**
+     * Shoots a projectile from the player
+     * @param rotation Angle the projectile needs to be shot in/to
+     */
     private shoot(rotation: number) {
         if (this.scene.game.getTime() > this.lastShotTime + 250) {
-            const bullet = new Projectile({
+            const bullet = new ThumbsUp({
                 scene: this.scene,
                 x: this.x,
                 y: this.y,
                 key: 'thumb'
             }, rotation).setScale(0.3).setAngle(rotation);
 
-            this.lastShotTime = this.scene.game.getTime();
+            // projectiles does not exist on type Scene (it does on LevelScene)
+            //@ts-ignore
+            this.scene.projectiles.add(bullet);
+            //@ts-ignore
+            //console.log(this.scene.projectiles);
 
-            // projectiles = this.physics.add.group({ // this.scene.physics?
-            //     classType: Projectile,
-            //     maxSize: 30,
-            //     runChildUpdate: true
-            // });
+            this.lastShotTime = this.scene.game.getTime();
         }
     }
 
+    /**
+     * Checks if the player just bounced
+     * @param value Did the player just bounce from something
+     */
     private setJustBounced(value: boolean) {
         this.justBounced = value;
     }
 
-    private getJustBounced(): boolean {
-        return this.justBounced;
+    public gainHealth(player: any, item: any) {
+        player.health += 20;
+        item.disableBody(true, true);
+        console.log(player.health);
     }
 }

@@ -2,6 +2,7 @@ import Player from '../objects/Player';
 import Item from '../objects/Pickup';
 import Projectile from '../objects/ThumbsUp';
 import Enemy from '../objects/Enemy';
+import Door from '../objects/Door';
 
 export default class LevelScene extends Phaser.Scene {
 	private player: Player;
@@ -9,6 +10,8 @@ export default class LevelScene extends Phaser.Scene {
 	private items: Phaser.GameObjects.Group;
 	public projectiles: Phaser.GameObjects.Group;
 	public enemies: Phaser.GameObjects.Group;
+
+	private door: Door;
 
 	constructor() {
 		super({ key: 'LevelScene' });
@@ -27,6 +30,7 @@ export default class LevelScene extends Phaser.Scene {
 		this.load.image('thumb', 'assets/img/thumbs-up.png');
 		this.load.image('health', 'assets/img/candy.png');
 		this.load.image('happy', 'assets/img/happy.png');
+		this.load.image('door', 'assets/img/door.png');
 	}
 
 	create(): void {
@@ -46,6 +50,16 @@ export default class LevelScene extends Phaser.Scene {
 			key: 'happy'
 		}));
 
+		this.door = new Door({
+			scene: this,
+			x: this.game.canvas.width / 2 + 8,
+			y: this.game.canvas.height / 4 - 110,
+			key: 'door',
+		})
+		//Change the hitbox size of the door
+		this.door.setSize(10, 3).setOffset(this.door.width/2 - 5 , this.door.height/4 - 8)
+	
+
 		this.player = new Player({
 			scene: this,
 			x: this.sys.game.canvas.width / 2,
@@ -56,7 +70,12 @@ export default class LevelScene extends Phaser.Scene {
 		// this.physics.world.enableBody(this.player, 0);
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 
+		const callback = function(){
+			console.log('hoi');
+		}
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
+		this.physics.add.overlap(this.player, this.door, callback);
+
 		this.physics.add.collider(this.player, this.enemies, this.player.hit);
 		this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
 	}

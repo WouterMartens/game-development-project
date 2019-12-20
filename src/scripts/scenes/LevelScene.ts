@@ -48,8 +48,8 @@ export default class LevelScene extends Phaser.Scene {
 
 		this.player = new Player({
 			scene: this,
-			x: this.sys.game.canvas.width / 2,
-			y: this.sys.game.canvas.height / 2,
+			x: this.game.canvas.width / 2,
+			y: this.game.canvas.height / 2,
 			key: 'pedestrian'
 		});
 
@@ -59,12 +59,23 @@ export default class LevelScene extends Phaser.Scene {
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
 		this.physics.add.collider(this.player, this.enemies, this.player.hit);
 		this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
+
+		this.physics.world.on('worldbounds', this.onWorldBounds);
 	}
 
 	update(): void {
 		this.player.update();
-		this.projectiles.children.each(child => {
-			child.update();
-		});
+		this.projectiles.children.each(child => child.update());
+	}
+
+	onWorldBounds(body: any) {
+		console.log('joe', body);
+		// body.destroy();
+		// body = null;
+		
+		if (body.gameObject instanceof Projectile) {
+			body.destroy(true);
+			// body = null;
+		}
 	}
 } 

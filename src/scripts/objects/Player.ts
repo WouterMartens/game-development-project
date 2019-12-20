@@ -1,5 +1,5 @@
 import ThumbsUp from './ThumbsUp';
-import Pickup from './Pickup';
+// import Pickup from './Pickup';
 
 export default class Player extends Phaser.Physics.Arcade.Image {
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;

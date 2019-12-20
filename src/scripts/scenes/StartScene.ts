@@ -1,3 +1,5 @@
+import Torch from "../objects/Torch";
+
 export default class StartScene extends Phaser.Scene {
     private startKey: Phaser.Input.Keyboard.Key;
     private timer: number;
@@ -98,6 +100,14 @@ export default class StartScene extends Phaser.Scene {
             boom.anims.play('torch' + key, true, start);
         });
 
+        // Werkt niet
+        // const torch = new Torch({
+        //     scene: this,
+        //     x: 100,
+        //     y: 100,
+        //     key: "torchFrontSprite"
+        // }, 0
+        // );
 
         
     }

@@ -20,10 +20,10 @@ The player can defeat the enemies by attacking them with likes. The attack butto
 ## Contact
 For any questions or feedback, you can contact one of the following authors:
 
-*Angélique Huige
-*Dylan Jongepier
-*Mart de Jager
-*Wouter Martens
+* Angélique Huige
+* Dylan Jongepier
+* Mart de Jager
+* Wouter Martens
 
 
 ## License

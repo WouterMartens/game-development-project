@@ -12,6 +12,8 @@ export default class LevelScene extends Phaser.Scene {
 	public enemies: Phaser.GameObjects.Group;
 
 	private door: Door;
+	private levelSceneSound: any;
+ 
 
 	constructor() {
 		super({ key: 'LevelScene' });
@@ -31,6 +33,8 @@ export default class LevelScene extends Phaser.Scene {
 		this.load.image('health', 'assets/img/candy.png');
 		this.load.image('happy', 'assets/img/happy.png');
 		this.load.image('door', 'assets/img/door.png');
+		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3")
+
 	}
 
 	create(): void {
@@ -80,6 +84,9 @@ export default class LevelScene extends Phaser.Scene {
 		this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
 
 		this.physics.world.on('worldbounds', this.onWorldBounds);
+
+		this.levelSceneSound = this.sound.add("mainTheme");
+        this.levelSceneSound.play();
 	}
 
 	update(): void {

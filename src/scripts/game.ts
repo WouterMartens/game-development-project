@@ -21,7 +21,7 @@ const config: GameConfig = {
 	},
 	//scene: [PreloadScene, DemoScene, StartScene, LevelScene, EndScene],
 	scene: [StartScene, LevelScene],
-	// scene: [LevelScene],
+	// scene: [StartScene],
 	physics: {
 		default: 'arcade',
 		arcade: {

@@ -18,7 +18,6 @@ export default class Torch extends Phaser.Physics.Arcade.Image {
         if (this.key === "torchFrontSprite")  {
             this.scene.load.spritesheet('torchFrontSprite', 'assets/img/torch-front-spritesheet.png',
             { frameWidth: 80, frameHeight: 130, margin: 10, spacing: 10 });
-
         } else if (this.key === "torchSideSprite") {
             this.scene.load.spritesheet('torchSideSprite', 'assets/img/torch-side-spritesheet.png',
             { frameWidth: 60, frameHeight: 130, margin: 10, spacing: 10 });
@@ -38,7 +37,6 @@ export default class Torch extends Phaser.Physics.Arcade.Image {
         torchAnimation.anims.play(this.key, true, this.startFrame);    
         
     }
-
 
     update(): void {
         

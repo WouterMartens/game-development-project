@@ -1,4 +1,5 @@
 import Player from '../objects/Player';
+import Npc from '../objects/Npc';
 import Item from '../objects/Pickup';
 import Projectile from '../objects/ThumbsUp';
 import Enemy from '../objects/Enemy';
@@ -6,14 +7,14 @@ import Door from '../objects/Door';
 
 export default class LevelScene extends Phaser.Scene {
 	private player: Player;
+	private npc: Npc;
 
 	private items: Phaser.GameObjects.Group;
 	public projectiles: Phaser.GameObjects.Group;
 	public enemies: Phaser.GameObjects.Group;
 
 	private door: Door;
-	private levelSceneSound: any;
- 
+	private levelSceneSound: any; 
 
 	constructor() {
 		super({ key: 'LevelScene' });
@@ -33,7 +34,8 @@ export default class LevelScene extends Phaser.Scene {
 		this.load.image('health', 'assets/img/candy.png');
 		this.load.image('happy', 'assets/img/happy.png');
 		this.load.image('door', 'assets/img/door.png');
-		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3")
+		this.load.image("businessMan", "assets/img/businessMan.png")
+		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3");
 
 	}
 
@@ -71,6 +73,16 @@ export default class LevelScene extends Phaser.Scene {
 			key: 'pedestrian'
 		});
 
+		this.npc = new Npc({
+			scene: this,
+			x: 1125,
+			y: 525,
+			key: "businessMan"
+		})
+
+		this.npc.setScale(0.9);
+
+
 		// this.physics.world.enableBody(this.player, 0);
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 
@@ -78,6 +90,7 @@ export default class LevelScene extends Phaser.Scene {
 			console.log('hoi');
 		}
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
+
 		this.physics.add.overlap(this.player, this.door, callback);
 
 		this.physics.add.collider(this.player, this.enemies, this.player.hit);

@@ -13,6 +13,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     private lastShotTime: number;
 
     private health: number;
+    // private healthSound: any;
 
     /**
      * Passes the given parameters to the super class and creates the player
@@ -42,6 +43,10 @@ export default class Player extends Phaser.Physics.Arcade.Image {
 
         this.health = 100;
     }
+
+    // preload(): void {
+    //     this.scene.load.audio("healthPickup", "assets/audio/healthPickup.wav")
+    // }
 
     update(): void {
         this.inputListener();
@@ -156,6 +161,9 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     public gainHealth(player: any, item: any) {
         player.health += 20;
         item.destroy();
+        // this.healthSound.sound.add("healthSound");
+        // this.healthSound.play();
+        
         console.log(player.health);
     }
 

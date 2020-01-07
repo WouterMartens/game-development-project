@@ -22,7 +22,11 @@ export default class LevelScene extends Phaser.Scene {
 
 	init(): void {
 		this.items = this.add.group({ classType: Item });
-		this.projectiles = this.add.group( { classType: Projectile });
+		this.projectiles = this.add.group({
+			classType: Projectile,
+			maxSize: 2,
+			runChildUpdate: true
+		});
 		this.enemies = this.add.group({ classType: Enemy });
 	}
 
@@ -87,7 +91,7 @@ export default class LevelScene extends Phaser.Scene {
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 
 		const callback = function(){
-			console.log('hoi');
+			console.log('hit the door');
 		}
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
 
@@ -104,17 +108,11 @@ export default class LevelScene extends Phaser.Scene {
 
 	update(): void {
 		this.player.update();
-		this.projectiles.children.each(child => child.update());
 	}
 
 	onWorldBounds(body: any) {
-		console.log('joe', body);
-		// body.destroy();
-		// body = null;
-		
 		if (body.gameObject instanceof Projectile) {
 			body.destroy(true);
-			// body = null;
 		}
 	}
 } 

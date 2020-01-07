@@ -12,8 +12,10 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     private justBounced: boolean;
     private lastShotTime: number;
 
+    private bullet: ThumbsUp;
     private health: number;
     // private healthSound: any;
+    private alive: boolean;
 
     /**
      * Passes the given parameters to the super class and creates the player
@@ -36,12 +38,19 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         // Read-only and doesn't have a setter
         //@ts-ignore
         this.body.onWorldBounds = true;
+        //@ts-ignore
+        this.body.setBoundsRectangle(new Phaser.Geom.Rectangle(80, 20, this.scene.game.canvas.width - 160, this.scene.game.canvas.height - 120));
 
         this.moveVelocity = 200;
         this.justBounced = false;
         this.lastShotTime = -1;
 
         this.health = 100;
+        this.alive = true;
+    }
+
+    create(): void {
+
     }
 
     // preload(): void {
@@ -132,14 +141,15 @@ export default class Player extends Phaser.Physics.Arcade.Image {
                 scene: this.scene,
                 x: this.x,
                 y: this.y,
-                key: 'thumb'
+                key: 'thumb',
+                maxSize: 2
             }, rotation).setScale(0.3).setAngle(rotation);
 
             // projectiles does not exist on type Scene (it does on LevelScene)
             //@ts-ignore
             this.scene.projectiles.add(bullet);
             //@ts-ignore
-            //console.log(this.scene.projectiles);
+            console.log(this.scene.projectiles);
 
             this.lastShotTime = this.scene.game.getTime();
         }
@@ -147,15 +157,24 @@ export default class Player extends Phaser.Physics.Arcade.Image {
 
     /**
      * Handles the player when hit
+     * @param player Player object colliding with...
+     * @param enemy an enemy
      */
     public hit(player: any, enemy: any) {
-        player.health -= 20;
-        console.log(player.health);
+        if (player.alive) {
+            player.health -= 20;
+            if (player.health <= 0) {
+                player.health = 0;
+                player.alive = false;
+            }
+            console.log(player.health, player.alive);
+        }
+
     }
 
     /**
      * Gains 20 health when picking up an item, then destroys the item
-     * @param player Player object colliding with
+     * @param player Player object colliding with...
      * @param item object out of items
      */
     public gainHealth(player: any, item: any) {

@@ -5,6 +5,7 @@ export default class StartScene extends Phaser.Scene {
     private timer: number;
     private startText: Phaser.GameObjects.BitmapText;
     private lastBlinkTime: number;
+    private startSceneSound: any;
 
     constructor() {
         super({ key: 'StartScene' });
@@ -36,6 +37,9 @@ export default class StartScene extends Phaser.Scene {
         // Loads the torches spritesheets
         this.load.spritesheet('torchFrontSprite', 'assets/img/torch-front-spritesheet.png', { frameWidth: 80, frameHeight: 130, margin: 10, spacing: 10 });
         this.load.spritesheet('torchSideSprite', 'assets/img/torch-side-spritesheet.png', { frameWidth: 60, frameHeight: 130, margin: 10, spacing: 10 });
+        
+        this.load.audio("startTheme", "assets/audio/bossTheme.mp3")
+    
     }
 
     create(): void {
@@ -109,6 +113,8 @@ export default class StartScene extends Phaser.Scene {
         // }, 0
         // );
 
+        this.startSceneSound = this.sound.add("startTheme");
+        this.startSceneSound.play();
         
     }
 
@@ -116,6 +122,7 @@ export default class StartScene extends Phaser.Scene {
         // Push S to start playing
         if (this.startKey.isDown) {
             this.scene.start("LevelScene");
+            this.startSceneSound.stop();
         }
 
         // To make the start text blink

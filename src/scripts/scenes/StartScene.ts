@@ -1,5 +1,3 @@
-import Torch from "../objects/Torch";
-
 export default class StartScene extends Phaser.Scene {
     private startKey: Phaser.Input.Keyboard.Key;
     private timer: number;
@@ -14,52 +12,30 @@ export default class StartScene extends Phaser.Scene {
     init(): void {
         // Initializer for keyboard input (S key)
         this.startKey = this.input.keyboard.addKey(
-            Phaser.Input.Keyboard.KeyCodes.S
-        );
+            Phaser.Input.Keyboard.KeyCodes.S);
         this.startKey.isDown = false;
 
+        // Default the blinking text
         this.lastBlinkTime = 0;
     }
 
     preload(): void {
-        // Loads image for ghost
-        this.load.image("ghost", "assets/img/snapghost.png");
-
-        // Loads image for title text
-        this.load.image("title", "assets/img/title.png");
-
-        // Loads image for background
-        this.load.image("background", "assets/img/dungeonbg.jpg"); //the background image for the scene
-
-        // Loads custom bitmap font
-        this.load.bitmapFont("dungeonFont", "assets/font/TheDungeonFont.png", "assets/font/TheDungeonFont.fnt");
-
-        // Loads the torches spritesheets
-        this.load.spritesheet('torchFrontSprite', 'assets/img/torch-front-spritesheet.png', { frameWidth: 80, frameHeight: 130, margin: 10, spacing: 10 });
-        this.load.spritesheet('torchSideSprite', 'assets/img/torch-side-spritesheet.png', { frameWidth: 60, frameHeight: 130, margin: 10, spacing: 10 });
-        
-        this.load.audio("startTheme", "assets/audio/bossTheme.mp3")
-    
+        this.load.image("ghost", "assets/img/snapghost.png"); // the image of the ghost
+        this.load.image("background", "assets/img/startBackground.png"); // the background image for the scene
+        this.load.bitmapFont("dungeonFont", "assets/font/TheDungeonFont.png", "assets/font/TheDungeonFont.fnt"); // the custom font used
+        this.load.spritesheet('torchFrontSprite', 'assets/img/torch-front-spritesheet.png', { frameWidth: 80, frameHeight: 130, margin: 10, spacing: 10 }); // the front of torch for animation
+        this.load.spritesheet('torchSideSprite', 'assets/img/torch-side-spritesheet.png', { frameWidth: 60, frameHeight: 130, margin: 10, spacing: 10 }); // the side of torch for animation 
+        this.load.audio("startTheme", "assets/audio/bossTheme.mp3") // the music playing
     }
 
     create(): void {
-        // Brick wall background
-        const background = this.add.image(this.sys.game.canvas.width / 2, 0, "background")
-            .setOrigin(0.5, 0);
+        this.add.image(this.sys.game.canvas.width / 2, 0, "background").setOrigin(0.5, 0); // background image
+        this.startText = this.add.bitmapText(this.sys.game.canvas.width / 2, 50, "dungeonFont", "Emoji Dungeon", 60).setOrigin(0.5, 0); // Title with custom font 
+        this.startText = this.add.bitmapText(this.sys.game.canvas.width / 2, 550, "dungeonFont", "druk op S om te beginnen", 30).setOrigin(0.5, 0); // Subtitle with custom font
+        const ghost = this.add.image(this.sys.game.canvas.width / 2, 150, "ghost").setOrigin(0.5, 0); // the image for the ghost emoji
+        ghost.setScale(0.4); // resize ghost emoji
 
-        // Title image
-        const title = this.add.image(this.sys.game.canvas.width / 2, 50, "title")
-            .setOrigin(0.5, 0);
-    
-        // Subtitle
-        this.startText = this.add.bitmapText(this.sys.game.canvas.width / 2, 600, "dungeonFont", "druk op S om te beginnen", 30)
-            .setOrigin(0.5, 0);
-
-        // Add ghost image
-        const ghost = this.add.image(this.sys.game.canvas.width / 2, 200, "ghost")
-            .setOrigin(0.5, 0);
-        ghost.setScale(0.4);
-
+        // Tweens animation for ghost emoji to move up and down
         this.tweens.add({
             targets: ghost,
             y: 250,
@@ -70,6 +46,7 @@ export default class StartScene extends Phaser.Scene {
             alpha: 0,
         });
 
+        // Tweens animation for ghost emoji to fade in and out
         this.tweens.add({
             targets: ghost,
             ease: "Linear",
@@ -79,8 +56,7 @@ export default class StartScene extends Phaser.Scene {
             alpha: 0
         })
 
-        // Torches
-        //const keys: string[] = ['Front', 'Side'];
+        // Animation for torches
         const keys: string[] = ['Front', 'Front'];
         keys.forEach((key, i) => {
             const config = {
@@ -100,28 +76,20 @@ export default class StartScene extends Phaser.Scene {
                 x = this.sys.game.canvas.width - 200;
                 start = 2;
             }
-            const boom = this.add.sprite(x, 300, 'torch' + key + 'Sprite');
-            boom.anims.play('torch' + key, true, start);
+            const flame = this.add.sprite(x, 300, 'torch' + key + 'Sprite');
+            flame.anims.play('torch' + key, true, start);
         });
 
-        // Werkt niet
-        // const torch = new Torch({
-        //     scene: this,
-        //     x: 100,
-        //     y: 100,
-        //     key: "torchFrontSprite"
-        // }, 0
-        // );
-
+        // Adds and plays the music
         this.startSceneSound = this.sound.add("startTheme");
         this.startSceneSound.play();
-        
     }
 
     update(): void {
         // Push S to start playing
         if (this.startKey.isDown) {
             this.scene.start("LevelScene");
+            // Stops the music on the next scene
             this.startSceneSound.stop();
         }
 

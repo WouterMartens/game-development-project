@@ -14,7 +14,6 @@ export default class Player extends Phaser.Physics.Arcade.Image {
 
     private bullet: ThumbsUp;
     private health: number;
-    // private healthSound: any;
     private alive: boolean;
 
     /**
@@ -49,12 +48,13 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         this.alive = true;
     }
 
-    create(): void {
+    // preload(): void{
+    //     this.scene.load.audio('healthPickup', 'assets/audio/healthPickup.mp3');
 
-    }
+    // }
 
-    // preload(): void {
-    //     this.scene.load.audio("healthPickup", "assets/audio/healthPickup.wav")
+    // create(): void{
+    //     this.scene.sound.add('healthPickup');
     // }
 
     update(): void {
@@ -180,8 +180,6 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     public gainHealth(player: any, item: any) {
         player.health += 20;
         item.destroy();
-        // this.healthSound.sound.add("healthSound");
-        // this.healthSound.play();
         
         console.log(player.health);
     }

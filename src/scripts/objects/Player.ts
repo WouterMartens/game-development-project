@@ -56,8 +56,14 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         this.alive = true;
     }
 
-    create(): void {
-    }
+    // preload(): void{
+    //     this.scene.load.audio('healthPickup', 'assets/audio/healthPickup.mp3');
+
+    // }
+
+    // create(): void{
+    //     this.scene.sound.add('healthPickup');
+    // }
 
     update(): void {
         this.inputListener();
@@ -180,6 +186,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     public gainHealth(player: any, item: any) {
         player.health += 20;
         item.destroy();
+        
         console.log(player.health);
     }
 

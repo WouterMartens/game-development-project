@@ -21,11 +21,11 @@ const config: GameConfig = {
 	},
 	//scene: [PreloadScene, DemoScene, StartScene, LevelScene, EndScene],
 	scene: [StartScene, LevelScene],
-	// scene: [StartScene],
+	// scene: [LevelScene],
 	physics: {
 		default: 'arcade',
 		arcade: {
-			debug: true,
+			debug: false,
 			// gravity: { y: 400 }
 		}
 	}

@@ -8,24 +8,23 @@ export default class LevelScene extends Phaser.Scene {
 	private player: Player;
 
 	private items: Phaser.GameObjects.Group;
-	public projectiles: Phaser.GameObjects.Group;
+	// public projectiles: Phaser.GameObjects.Group;
 	public enemies: Phaser.GameObjects.Group;
 
 	private door: Door;
 	private levelSceneSound: any;
  
-
 	constructor() {
 		super({ key: 'LevelScene' });
 	}
 
 	init(): void {
 		this.items = this.add.group({ classType: Item });
-		this.projectiles = this.add.group({
-			classType: Projectile,
-			maxSize: 2,
-			runChildUpdate: true
-		});
+		// this.projectiles = this.add.group({
+		// 	classType: Projectile,
+		// 	maxSize: 2,
+		// 	runChildUpdate: true
+		// });
 		this.enemies = this.add.group({ classType: Enemy });
 	}
 
@@ -67,7 +66,6 @@ export default class LevelScene extends Phaser.Scene {
 		//Change the hitbox size of the door
 		this.door.setSize(10, 3).setOffset(this.door.width/2 - 5 , this.door.height/4 - 8)
 	
-
 		this.player = new Player({
 			scene: this,
 			x: this.game.canvas.width / 2,
@@ -78,15 +76,16 @@ export default class LevelScene extends Phaser.Scene {
 		// this.physics.world.enableBody(this.player, 0);
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 
+		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
+
 		const callback = function(){
 			console.log('hit the door');
 		}
-		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
-
 		this.physics.add.overlap(this.player, this.door, callback);
 
 		this.physics.add.collider(this.player, this.enemies, this.player.hit);
-		this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
+		// this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
+		this.physics.add.collider(this.player.bullets, this.enemies, Enemy.hit);
 
 		this.physics.world.on('worldbounds', this.onWorldBounds);
 
@@ -100,7 +99,7 @@ export default class LevelScene extends Phaser.Scene {
 
 	onWorldBounds(body: any) {
 		if (body.gameObject instanceof Projectile) {
-			body.destroy(true);
+			body.gameObject.destroy(true);
 		}
 	}
 } 

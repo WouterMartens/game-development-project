@@ -3,21 +3,18 @@ import Npc from '../objects/Npc';
 import Item from '../objects/Pickup';
 import Projectile from '../objects/ThumbsUp';
 import Enemy from '../objects/Enemy';
-import Door from '../objects/Door';
 
-export default class LevelScene extends Phaser.Scene {
+export default class LevelScene2 extends Phaser.Scene {
 	private player: Player;
 	private npc: any;
 	private items: Phaser.GameObjects.Group;
 	// public projectiles: Phaser.GameObjects.Group;
 	public enemies: Phaser.GameObjects.Group;
 
-	private door: Door;
-	public hitDoor: boolean;
 	private levelSceneSound: any;
  
 	constructor() {
-		super({ key: 'LevelScene' });
+		super({ key: 'LevelScene2' });
 	}
 
 	init(): void {
@@ -79,20 +76,6 @@ export default class LevelScene extends Phaser.Scene {
 			key: 'happy'
 		}));
 
-		// Adds door to scene
-		this.door = new Door({
-			scene: this,
-			x: this.game.canvas.width / 2 + 8,
-			y: this.game.canvas.height / 4 - 110,
-			key: 'door',
-		})
-		
-		// Set the state of hitDoor to false on level start
-		this.hitDoor = false;
-
-		//Change the hitbox size of the door
-		this.door.setSize(10, 3).setOffset(this.door.width/2 - 5 , this.door.height/4 - 8)
-	
 		// Adds player to scene
 		this.player = new Player({
 			scene: this,
@@ -110,12 +93,10 @@ export default class LevelScene extends Phaser.Scene {
 
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
 
-		const callback = () => {
+		const callback = function(){
 			console.log('hit the door');
-			this.hitDoor = true;
 		}
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
-		this.physics.add.overlap(this.player, this.door, callback);
 
 		this.physics.add.collider(this.player, this.enemies, this.player.hit);
 		// this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
@@ -133,14 +114,6 @@ export default class LevelScene extends Phaser.Scene {
 		
 		// Sets collision for player and NPC
 		this.physics.world.collide(this.player, [this.npc]);
-		// Push S to start playing
-		
-		if (this.hitDoor) {
-			this.scene.start("LevelScene2")
-		}
-		// if (this.startKey.isDown) {
-		// 	this.scene.start("LevelScene2");
-		// }
 	}
 
 	onWorldBounds(body: any) {

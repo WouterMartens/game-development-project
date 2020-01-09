@@ -14,6 +14,8 @@ export default class LevelScene extends Phaser.Scene {
 
 	public projectiles: Phaser.GameObjects.Group;
 	public enemies: Phaser.GameObjects.Group;
+	private popupBox: any;
+	private nextKey: Phaser.Input.Keyboard.Key;
 
 	constructor() {
 		super({ key: 'LevelScene' });
@@ -27,6 +29,10 @@ export default class LevelScene extends Phaser.Scene {
 			runChildUpdate: true
 		});
 		this.enemies = this.add.group({ classType: Enemy });
+
+		this.nextKey = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.nextKey.isDown = false;
 	}
 
 	preload(): void {
@@ -37,6 +43,8 @@ export default class LevelScene extends Phaser.Scene {
 		this.load.image('happy', 'assets/img/happy.png'); // the image of the enemy emoji
 		this.load.image('door', 'assets/img/door.png');	// the image of the door
 		this.load.image("businessMan", "assets/img/businessMan.png") // the image of the NPC
+		this.load.image("businessManTextBox1", "assets/img/businessManTextBox1.png") // the 1st image of the NPC's text box
+		this.load.image("businessManTextBox2", "assets/img/businessManTextBox2.png") // the 2nd image of the NPC's text box
 		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3"); // the song playing in this scene
 	}
 
@@ -98,14 +106,26 @@ export default class LevelScene extends Phaser.Scene {
 
 		// Adds and plays music
 		this.levelSceneSound = this.sound.add("mainTheme");
-        this.levelSceneSound.play();
+		this.levelSceneSound.play();
 	}
 
 	update(): void {
 		this.player.update();
 		
 		// Sets collision for player and NPC
-		this.physics.world.collide(this.player, [this.npc]);
+		if(this.physics.world.collide(this.player, [this.npc])){
+			this.popupBox = this.physics.add.staticImage(this.sys.game.canvas.width / 2, this.sys.game.canvas.height /2, "businessManTextBox1")
+			// console.log(this.popupBox.texture.key);
+
+		};
+		if (this.nextKey.isDown) {
+			this.popupBox = this.physics.add.staticImage(this.sys.game.canvas.width / 2, this.sys.game.canvas.height /2, "businessManTextBox2")
+		}
+		// if (this.nextKey.isDown && this.popupBox.texture.key === "businessManTextBox2") {
+		// 	this.popupBox.setVisible(false);
+		// }
+		
+
 	}
 
 	onWorldBounds(body: any) {

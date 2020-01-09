@@ -6,7 +6,7 @@ import Enemy from '../objects/Enemy';
 import Door from '../objects/Door';
 
 export default class LevelScene extends Phaser.Scene {
-	private player: Player;
+	public player: Player;
 	private npc: any;
 	private items: Phaser.GameObjects.Group;
 	// public projectiles: Phaser.GameObjects.Group;
@@ -26,7 +26,7 @@ export default class LevelScene extends Phaser.Scene {
 		// 	maxSize: 2,
 		// 	runChildUpdate: true
 		// });
-		this.enemies = this.add.group({ classType: Enemy });
+		this.enemies = this.add.group({ classType: Enemy, runChildUpdate: true });
 	}
 
 	preload(): void {
@@ -119,7 +119,7 @@ export default class LevelScene extends Phaser.Scene {
 
 		// Adds and plays music
 		this.levelSceneSound = this.sound.add("mainTheme");
-        this.levelSceneSound.play();
+		this.levelSceneSound.play();
 	}
 
 	update(): void {

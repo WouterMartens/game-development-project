@@ -21,6 +21,20 @@ export default class ThumbsUp extends Phaser.Physics.Arcade.Image {
 
         // this.body.checkCollision(true);
         // this.body.onCollide = true;
+
+        this.flip(angle);
+    }
+
+    flip(rotation: number): void {
+        switch(rotation) {
+            case 135:
+            case 180:
+                this.setFlipY(true);
+                break;
+            case 225:
+                this.setFlip(false, true);
+                break;
+        }
     }
 
     // fire (x: number, y:  number) {

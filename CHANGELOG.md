@@ -29,16 +29,25 @@
 * Added graphics
 
 ---
-## Version 0.2.0 - 10th December 2019
+## Version 0.2.0 - 10th January 2020
 
 ### Features
 
-* ...
-* ...
+* Different rooms
+* Boss room
+* Moving enemies
 
 ### Updates
 
-* ...
-* ...
+* Different enemy states
+* Cleaned up code and assets
+* Changed the name to Emoji Dungeon
+
+### Bugfixes
+
+* Teleport to the next scene when finishing the level after having already touched the door
+* Projectiles weren't oriented correctly
+* Projectiles wouldn't disappear after hitting the wall
+* Enemies could go behind the door
 
 ---

@@ -63,6 +63,20 @@ export default class LevelScene extends Phaser.Scene {
 		// Adds background image
 		const room1 = this.add.image(0, 0, 'room1').setOrigin(0, 0);
 
+		// Adds door to scene
+		this.door = new Door({
+			scene: this,
+			x: this.game.canvas.width / 2 + 8,
+			y: this.game.canvas.height / 4 - 110,
+			key: 'door',
+		})
+		
+		// Set the state of hitDoor to false on level start
+		this.hitDoor = false;
+
+		// Change the hitbox size of the door
+		this.door.setSize(10, 3).setOffset(this.door.width/2 - 5 , this.door.height/4 - 8)
+	
 		// Adds item to scene
 		this.items.add(new Item({
 			scene: this,
@@ -79,20 +93,6 @@ export default class LevelScene extends Phaser.Scene {
 			key: 'happy'
 		}));
 
-		// Adds door to scene
-		this.door = new Door({
-			scene: this,
-			x: this.game.canvas.width / 2 + 8,
-			y: this.game.canvas.height / 4 - 110,
-			key: 'door',
-		})
-		
-		// Set the state of hitDoor to false on level start
-		this.hitDoor = false;
-
-		//Change the hitbox size of the door
-		this.door.setSize(10, 3).setOffset(this.door.width/2 - 5 , this.door.height/4 - 8)
-	
 		// Adds player to scene
 		this.player = new Player({
 			scene: this,
@@ -112,7 +112,9 @@ export default class LevelScene extends Phaser.Scene {
 
 		const callback = () => {
 			console.log('hit the door');
-			this.hitDoor = true;
+			if (this.enemies.children.size === 0) {
+				this.hitDoor = true;
+			}
 		}
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
 		this.physics.add.overlap(this.player, this.door, callback);
@@ -133,14 +135,12 @@ export default class LevelScene extends Phaser.Scene {
 		
 		// Sets collision for player and NPC
 		this.physics.world.collide(this.player, [this.npc]);
-		// Push S to start playing
 		
-		if (this.hitDoor) {
-			this.scene.start("LevelScene2")
+		// Starts the next scene
+		if (this.hitDoor && this.enemies.children.size === 0) {
+			this.hitDoor = false;
+			this.scene.start("LevelScene2");
 		}
-		// if (this.startKey.isDown) {
-		// 	this.scene.start("LevelScene2");
-		// }
 	}
 
 	onWorldBounds(body: any) {

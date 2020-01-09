@@ -95,7 +95,7 @@ export default class LevelScene2 extends Phaser.Scene {
 		this.player.update();
 
 		if (this.hitDoor) {
-			this.scene.start("BossScene")
+			this.scene.start("BossScene");
 		}
 	}
 

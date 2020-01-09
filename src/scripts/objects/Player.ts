@@ -10,9 +10,11 @@ export default class Player extends Phaser.Physics.Arcade.Image {
 
     private moveVelocity: number;
     private justBounced: boolean;
+
     private lastShotTime: number;
 
-    private bullet: ThumbsUp;
+    public bullets: Phaser.GameObjects.Group;
+
     private health: number;
     private alive: boolean;
 
@@ -23,6 +25,12 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     constructor(params: any) {
         // Not sure about params.key since it's an Arcade.Image object now (as opposed to GameObject.Image)
         super(params.scene, params.x, params.y, params.key, params.frame);
+
+        this.bullets = this.scene.add.group({
+            classType: ThumbsUp,
+            maxSize: 2,
+            runChildUpdate: true
+        });
 
         this.initScene();
 
@@ -137,21 +145,19 @@ export default class Player extends Phaser.Physics.Arcade.Image {
      */
     private shoot(rotation: number) {
         if (this.scene.game.getTime() > this.lastShotTime + 250) {
-            const bullet = new ThumbsUp({
-                scene: this.scene,
-                x: this.x,
-                y: this.y,
-                key: 'thumb',
-                maxSize: 2
-            }, rotation).setScale(0.3).setAngle(rotation);
+            this.bullets.add(new ThumbsUp(
+                this.scene,
+                this.x,
+                this.y,
+                rotation
+            ).setScale(0.3).setAngle(rotation));
 
-            // projectiles does not exist on type Scene (it does on LevelScene)
-            //@ts-ignore
-            this.scene.projectiles.add(bullet);
-            //@ts-ignore
-            console.log(this.scene.projectiles);
+            // const bullet = this.bullets.get();
 
+            // if (bullet) {
+            //     bullet.fire(this.x, this.y);
             this.lastShotTime = this.scene.game.getTime();
+            // }
         }
     }
 

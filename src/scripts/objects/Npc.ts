@@ -4,7 +4,8 @@ export default class Npc extends Phaser.Physics.Arcade.Image {
         this.scene.add.existing(this);
         this.scene.physics.world.enableBody(this, 0);
 
-        this.setCollideWorldBounds(true);
+        // this.setCollideWorldBounds(true);
+        this.setImmovable(true);
 
         //@ts-ignore
         this.body.setBoundsRectangle(new Phaser.Geom.Rectangle(80, 20, this.scene.game.canvas.width - 160, this.scene.game.canvas.height - 120));

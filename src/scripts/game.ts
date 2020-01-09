@@ -5,6 +5,7 @@ import StartScene from './scenes/StartScene';
 import LevelScene from './scenes/LevelScene';
 import LevelScene2 from './scenes/LevelScene2';
 import EndScene from './scenes/EndScene';
+import BossScene from './scenes/BossScene';
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -21,7 +22,7 @@ const config: GameConfig = {
 		height: DEFAULT_HEIGHT
 	},
 	//scene: [PreloadScene, DemoScene, StartScene, LevelScene, EndScene],
-	scene: [StartScene, LevelScene, LevelScene2],
+	scene: [StartScene, LevelScene, LevelScene2, BossScene],
 	// scene: [LevelScene],
 	physics: {
 		default: 'arcade',

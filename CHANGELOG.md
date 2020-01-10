@@ -43,6 +43,8 @@
 * Different enemy states
 * Cleaned up code and assets
 * Changed the name to Emoji Dungeon
+* End screen
+* Game over screen
 
 ### Bugfixes
 
@@ -50,5 +52,6 @@
 * Projectiles weren't oriented correctly
 * Projectiles wouldn't disappear after hitting the wall
 * Enemies could go behind the door
+* All health would be instantly taken away when hit once
 
 ---

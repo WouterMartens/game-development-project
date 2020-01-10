@@ -36,6 +36,7 @@
 * Different rooms
 * Boss room
 * Moving enemies
+* Health bar
 
 ### Updates
 

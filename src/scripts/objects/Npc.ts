@@ -9,6 +9,5 @@ export default class Npc extends Phaser.Physics.Arcade.Image {
 
         //@ts-ignore
         this.body.setBoundsRectangle(new Phaser.Geom.Rectangle(80, 20, this.scene.game.canvas.width - 160, this.scene.game.canvas.height - 120));
-
     }
 }

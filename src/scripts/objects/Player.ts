@@ -16,6 +16,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     public bullets: Phaser.GameObjects.Group;
 
     private health: number;
+    private healthBar: Phaser.Physics.Arcade.Image;
     private alive: boolean;
 
     /**
@@ -52,18 +53,19 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         this.justBounced = false;
         this.lastShotTime = -1;
 
-        this.health = 100;
+        this.health = 5;
         this.alive = true;
     }
 
-    // preload(): void{
-    //     this.scene.load.audio('healthPickup', 'assets/audio/healthPickup.mp3');
+    preload(): void{
+        //this.scene.load.audio('healthPickup', 'assets/audio/healthPickup.mp3');
+        this.scene.load.image('heart', 'assets/img/heart.png');
+    }
 
-    // }
-
-    // create(): void{
-    //     this.scene.sound.add('healthPickup');
-    // }
+    create(): void {
+        //this.scene.sound.add('healthPickup');
+        this.scene.physics.add.image(100, 100, 'heart');
+    }
 
     update(): void {
         this.inputListener();
@@ -168,25 +170,32 @@ export default class Player extends Phaser.Physics.Arcade.Image {
      */
     public hit(player: any, enemy: any) {
         if (player.alive) {
-            player.health -= 20;
-            if (player.health <= 0) {
+            player.health -= 1; 
+            // console.log(player.scene.healthBar.getChildren()[0], player.scene.healthBar.getChildren()[player.health]);
+
+            
+            if (player.health < 0) {
                 player.health = 0;
                 player.alive = false;
+            } else {
+                player.scene.healthBar.getChildren()[player.health].setVisible(false);
             }
-            console.log(player.health, player.alive);
+            // console.log(player.health, player.alive);
+
+            // console.log(enemy.getVelocity());
         }
     }
 
     /**
-     * Gains 20 health when picking up an item, then destroys the item
+     * Gain 1 health when picking up an item, then destroys the item
      * @param player Player object colliding with...
      * @param item object out of items
      */
     public gainHealth(player: any, item: any) {
-        player.health += 20;
+        player.health += 1;
         item.destroy();
         
-        console.log(player.health);
+        // console.log(player.health);
     }
 
     /**

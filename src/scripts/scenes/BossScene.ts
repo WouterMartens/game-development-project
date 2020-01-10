@@ -7,6 +7,8 @@ export default class BossScene extends Phaser.Scene {
 	private boss: Boss;
 	public enemies: Phaser.GameObjects.Group;
 
+	public healthBar: Phaser.Physics.Arcade.StaticGroup;
+
 	private levelSceneSound: any;
  
 	constructor() {
@@ -23,6 +25,7 @@ export default class BossScene extends Phaser.Scene {
 
 		// Player
 		this.load.image('pedestrian', 'assets/img/pedestrian.png');  // the image of the player 
+		this.load.image('heart', 'assets/img/heart.png');
 
 		// Projectiles
 		this.load.image('thumb', 'assets/img/thumbs-up.png'); // the image of the thumbs up
@@ -49,8 +52,8 @@ export default class BossScene extends Phaser.Scene {
 
 	create(): void {
 		// Adds background image
-		const bossscene = this.add.image(0, 0, 'background').setOrigin(0, 0);
-		
+		const bossScene = this.add.image(0, 0, 'background').setOrigin(0, 0);
+
 		// Adds player to scene
 		this.player = new Player({
 			scene: this,
@@ -58,6 +61,17 @@ export default class BossScene extends Phaser.Scene {
 			y: this.game.canvas.height / 8 * 7,
 			key: 'pedestrian'
 		});
+
+		// Health bar
+		this.healthBar = this.physics.add.staticGroup({
+			key: 'heart',
+			frameQuantity: 5,
+			'setScale.x': 0.5,
+			'setScale.y': 0.5
+		});
+
+		Phaser.Actions.PlaceOnLine(this.healthBar.getChildren(), new Phaser.Geom.Line(120, 75, 450, 75));
+		this.healthBar.refresh();
 
 		this.boss = new Boss({
 			scene: this,

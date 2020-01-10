@@ -59,20 +59,18 @@ export default class Enemy extends Phaser.Physics.Arcade.Image {
             //@ts-ignore
             this.scene.physics.moveToObject(this, this.scene.player, speed);
         }
-
-        console.log(this.body.velocity, this.isHit);
-        
+        // console.log(this.body.velocity, this.isHit);
     }
 
     public static hit(projectile: any, enemy: any) {
-        console.log('hit', enemy.health, projectile, enemy);
+        // console.log('hit', enemy.health, projectile, enemy);
         projectile.destroy();
         enemy.isHit = true;
         enemy.health -= 20;
 
         if (enemy.health <= 0) {
             enemy.destroy();
-            console.log('destroy');
+            // console.log('destroy');
         }
     }
 }

@@ -11,7 +11,6 @@ export default class LevelScene2 extends Phaser.Scene {
 	private door: Door;
 	public hitDoor: boolean;
 	private items: Item;
-	
 
 	private levelSceneSound: any;
  

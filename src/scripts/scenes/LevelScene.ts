@@ -123,7 +123,7 @@ export default class LevelScene extends Phaser.Scene {
 		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
 
 		const callback = () => {
-			console.log('hit the door');
+			// console.log('hit the door');
 			if (this.enemies.children.size === 0) {
 				this.hitDoor = true;
 			}

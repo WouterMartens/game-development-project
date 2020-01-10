@@ -1,5 +1,4 @@
 import 'phaser';
-import PreloadScene from './scenes/preloadScene';
 import StartScene from './scenes/StartScene';
 import LevelScene from './scenes/LevelScene';
 import LevelScene2 from './scenes/LevelScene2';
@@ -23,7 +22,7 @@ const config: GameConfig = {
 		height: DEFAULT_HEIGHT
 	},
 	scene: [StartScene, LevelScene, LevelScene2, BossScene, GameOverScene],
-	// scene: [GameOverScene, StartScene],
+	// scene: [BossScene],
 	physics: {
 		default: 'arcade',
 		arcade: {

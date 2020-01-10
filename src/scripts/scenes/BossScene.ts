@@ -1,11 +1,14 @@
 import Player from '../objects/Player';
 import Projectile from '../objects/ThumbsUp';
 import Boss from '../objects/Boss';
+import Item from '../objects/Pickup';
+
 
 export default class BossScene extends Phaser.Scene {
 	private player: Player;
 	private boss: Boss;
 	public enemies: Phaser.GameObjects.Group;
+	private items: Phaser.GameObjects.Group;
 
 	public healthBar: Phaser.Physics.Arcade.StaticGroup;
 
@@ -17,6 +20,7 @@ export default class BossScene extends Phaser.Scene {
 
 	init(): void {
 		this.enemies = this.add.group({ classType: Boss, runChildUpdate: true });
+		this.items = this.add.group({ classType: Item });
 	}
 
 	preload(): void {
@@ -70,6 +74,14 @@ export default class BossScene extends Phaser.Scene {
 			'setScale.y': 0.5
 		});
 
+		// Adds an item to the scene
+		this.items.add(new Item({
+			scene: this,
+			x: 200,
+			y: 500,
+			key: 'health'
+		}));
+
 		Phaser.Actions.PlaceOnLine(this.healthBar.getChildren(), new Phaser.Geom.Line(120, 75, 450, 75));
 		this.healthBar.refresh();
 
@@ -84,6 +96,8 @@ export default class BossScene extends Phaser.Scene {
 		// this.physics.world.enableBody(this.player, 0);
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 		// this.physics.add.collider(this.player, this.enemies, this.player.hit);
+
+		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
 
 		this.physics.add.collider(this.player, this.boss, this.player.hit);
 		this.physics.add.collider(this.player.bullets, this.enemies, Boss.hit);

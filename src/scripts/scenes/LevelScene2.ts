@@ -2,15 +2,12 @@ import Player from '../objects/Player';
 import Projectile from '../objects/ThumbsUp';
 import Door from '../objects/Door';
 import Enemy from '../objects/Enemy';
-import Item from '../objects/Pickup';
-
 
 export default class LevelScene2 extends Phaser.Scene {
 	private player: Player;
-	public enemies: Enemy;
+	public enemies: Phaser.GameObjects.Group;
 	private door: Door;
 	public hitDoor: boolean;
-	private items: Item;
 
 	private levelSceneSound: any;
  
@@ -19,6 +16,8 @@ export default class LevelScene2 extends Phaser.Scene {
 	}
 
 	init(): void {
+		this.enemies = this.add.group({ classType: Enemy, runChildUpdate: true });
+
 	}
 
 	preload(): void {
@@ -32,9 +31,6 @@ export default class LevelScene2 extends Phaser.Scene {
 		// Projectiles
 		this.load.image('thumb', 'assets/img/thumbs-up.png'); // the image of the thumbs up
 
-		// Ground items
-		this.load.image('health', 'assets/img/candy.png');	// the image of the candy pickup
-
 		// Enemies
 		this.load.image('happy', 'assets/img/happy.png'); // the image of the enemy emoji
 		this.load.image('smile', 'assets/img/slightlysmilingface.png'); // the image of the enemy emoji
@@ -42,9 +38,6 @@ export default class LevelScene2 extends Phaser.Scene {
 		this.load.image('frowning', 'assets/img/frowning.png'); // the image of the enemy emoji
 		this.load.image('angry', 'assets/img/angry.png'); // the image of the enemy emoji
 		this.load.image('pouting', 'assets/img/pouting.png'); // the image of the enemy emoji
-
-		// NPCs
-		this.load.image("businessMan", "assets/img/businessMan.png") // the image of the NPC
 		
 		// Audio
 		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3"); // the song playing in this scene
@@ -52,22 +45,15 @@ export default class LevelScene2 extends Phaser.Scene {
 
 	create(): void {
 		// Adds background image
-		const room1 = this.add.image(0, 0, 'room1').setOrigin(0, 0);
+		const room1 = this.add.image(0, 0, 'room1').setOrigin(0, 0);		
 
-		// Adds an item to the scene
-		this.items = new Item({
-			scene: this,
-			x: 200,
-			y: 500,
-			key: 'health'
-		});
-
-		this.enemies = new Enemy({
+		// Adds enemy to scene
+		this.enemies.add(new Enemy({
 			scene: this,
 			x: 500,
 			y: 200,
 			key: 'happy'
-		});
+		}));
 
 		// Adds door to scene
 		this.door = new Door({
@@ -94,17 +80,14 @@ export default class LevelScene2 extends Phaser.Scene {
 		// this.physics.world.enableBody(this.player, 0);
 		this.physics.world.setBounds(80, 142 - this.player.height, this.sys.game.canvas.width - 80, this.sys.game.canvas.height - this.player.height, true, true, true, true);
 
-		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
-
 		const callback = () => {
-			console.log('hit the door');
+			// console.log('hit the door');
 			this.hitDoor = true;
 		}
 
-		this.physics.add.overlap(this.player, this.items, this.player.gainHealth);
-
 		this.physics.add.collider(this.player, this.enemies, this.player.hit);
 		this.physics.add.overlap(this.player, this.door, callback);
+		this.physics.add.collider(this.player.bullets, this.enemies, Enemy.hit);
 
 		this.physics.world.on('worldbounds', this.onWorldBounds);
 
@@ -116,8 +99,10 @@ export default class LevelScene2 extends Phaser.Scene {
 	update(): void {
 		this.player.update();
 
-		if (this.hitDoor) {
+		if (this.hitDoor && this.enemies.children.size === 0) {
+			this.hitDoor = false;
 			this.scene.start("BossScene");
+			this.levelSceneSound.stop();
 		}
 	}
 

@@ -1,11 +1,12 @@
 import 'phaser';
-import DemoScene from './scenes/mainScene';
 import PreloadScene from './scenes/preloadScene';
 import StartScene from './scenes/StartScene';
 import LevelScene from './scenes/LevelScene';
 import LevelScene2 from './scenes/LevelScene2';
 import EndScene from './scenes/EndScene';
 import BossScene from './scenes/BossScene';
+import GameOverScene from './scenes/GameOverScene';
+
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -21,9 +22,8 @@ const config: GameConfig = {
 		width: DEFAULT_WIDTH,
 		height: DEFAULT_HEIGHT
 	},
-	//scene: [StartScene, LevelScene, LevelScene2, BossScene],
-	scene: [BossScene],
-	// scene: [LevelScene],
+	scene: [StartScene, LevelScene, LevelScene2, BossScene, GameOverScene],
+	// scene: [GameOverScene, StartScene],
 	physics: {
 		default: 'arcade',
 		arcade: {

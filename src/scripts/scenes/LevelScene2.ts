@@ -9,6 +9,8 @@ export default class LevelScene2 extends Phaser.Scene {
 	private door: Door;
 	public hitDoor: boolean;
 
+	public healthBar: Phaser.Physics.Arcade.StaticGroup;
+
 	private levelSceneSound: any;
  
 	constructor() {
@@ -27,6 +29,7 @@ export default class LevelScene2 extends Phaser.Scene {
 
 		// Player
 		this.load.image('pedestrian', 'assets/img/pedestrian.png');  // the image of the player 
+		this.load.image('heart', 'assets/img/heart.png'); // health bar heart
 
 		// Projectiles
 		this.load.image('thumb', 'assets/img/thumbs-up.png'); // the image of the thumbs up
@@ -54,6 +57,17 @@ export default class LevelScene2 extends Phaser.Scene {
 			y: 200,
 			key: 'happy'
 		}));
+
+		// Health bar
+		this.healthBar = this.physics.add.staticGroup({
+			key: 'heart',
+			frameQuantity: 5,
+			'setScale.x': 0.5,
+			'setScale.y': 0.5
+		});
+
+		Phaser.Actions.PlaceOnLine(this.healthBar.getChildren(), new Phaser.Geom.Line(120, 75, 450, 75));
+		this.healthBar.refresh();
 
 		// Adds door to scene
 		this.door = new Door({

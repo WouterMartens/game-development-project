@@ -45,10 +45,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Image {
                 speed = 100;
             } else if (this.health <= fr * 4) {
                 this.setTexture(this.states[2]);
-                speed = 50;
+                speed = 75;
             } else if (this.health <= fr * 5) {
                 this.setTexture(this.states[1]);
-                speed = 25;
+                speed = 50;
             }
         }
 

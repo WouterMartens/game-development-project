@@ -29,7 +29,7 @@ export default class BossScene extends Phaser.Scene {
 
 		// Player
 		this.load.image('pedestrian', 'assets/img/pedestrian.png');  // the image of the player 
-		this.load.image('heart', 'assets/img/heart.png');
+		this.load.image('heart', 'assets/img/heart.png'); // health bar heart
 
 		// Projectiles
 		this.load.image('thumb', 'assets/img/thumbs-up.png'); // the image of the thumbs up

@@ -27,7 +27,7 @@ export default class LevelScene extends Phaser.Scene {
 	init(): void {
 		this.items = this.add.group({ classType: Item });
 
-		this.enemies = this.add.group({ classType: Enemy });
+		// this.enemies = this.add.group({ classType: Enemy });
 
 		this.nextKey = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -67,9 +67,11 @@ export default class LevelScene extends Phaser.Scene {
 		this.load.image('pouting', 'assets/img/pouting.png');
 
 		// NPCs
-		this.load.image("businessMan", "assets/img/businessMan.png") // the image of the questgiver
-		this.load.image("businessManTextBox1", "assets/img/businessManTextBox1.png")
-		this.load.image("businessManTextBox2", "assets/img/businessManTextBox2.png")
+		this.load.image("businessMan", "assets/img/businessMan.png") // the image of the NPC
+
+		// Dialogue images
+		this.load.image("businessManTextBox1", "assets/img/businessManTextBox1.png") // the 1st image of the NPC's text box
+		this.load.image("businessManTextBox2", "assets/img/businessManTextBox2.png") // the 2nd image of the NPC's text box
 		
 		// Audio
 		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3");
@@ -140,7 +142,6 @@ export default class LevelScene extends Phaser.Scene {
 		this.physics.add.overlap(this.player, this.door, callback);
 
 		this.physics.add.collider(this.player, this.enemies, this.player.hit);
-		// this.physics.add.collider(this.projectiles, this.enemies, Enemy.hit);
 		this.physics.add.collider(this.player.bullets, this.enemies, Enemy.hit);
 
 		this.physics.world.on('worldbounds', this.onWorldBounds);

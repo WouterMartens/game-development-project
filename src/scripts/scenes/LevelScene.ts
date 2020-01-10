@@ -14,6 +14,8 @@ export default class LevelScene extends Phaser.Scene {
 	private popupBox: any;
 	private nextKey: Phaser.Input.Keyboard.Key;
 
+	public healthBar: Phaser.Physics.Arcade.StaticGroup;
+
 	private door: Door;
 	public hitDoor: boolean;
 	private levelSceneSound: any;
@@ -51,6 +53,7 @@ export default class LevelScene extends Phaser.Scene {
 
 		// Player
 		this.load.image('pedestrian', 'assets/img/pedestrian.png');  // the image of the player 
+		this.load.image('heart', 'assets/img/heart.png'); // health bar heart
 
 		// Projectiles
 		this.load.image('thumb', 'assets/img/thumbs-up.png');
@@ -122,6 +125,17 @@ export default class LevelScene extends Phaser.Scene {
 			y: this.game.canvas.height / 2,
 			key: 'pedestrian'
 		});
+
+		// Health bar
+		this.healthBar = this.physics.add.staticGroup({
+			key: 'heart',
+			frameQuantity: 5,
+			'setScale.x': 0.5,
+			'setScale.y': 0.5
+		});
+
+		Phaser.Actions.PlaceOnLine(this.healthBar.getChildren(), new Phaser.Geom.Line(120, 75, 450, 75));
+		this.healthBar.refresh();
 
 		// Adds NPC to scene as statis body
 		this.npc = this.physics.add.staticImage(1125, 525, "businessMan");

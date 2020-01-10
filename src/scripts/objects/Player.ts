@@ -18,6 +18,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
     private health: number;
     private healthBar: Phaser.Physics.Arcade.Image;
     private alive: boolean;
+    private immune: boolean;
 
     /**
      * Passes the given parameters to the super class and creates the player
@@ -55,6 +56,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
 
         this.health = 5;
         this.alive = true;
+        this.immune = false;
     }
 
     preload(): void{
@@ -169,23 +171,30 @@ export default class Player extends Phaser.Physics.Arcade.Image {
      * @param enemy an enemy
      */
     public hit(player: any, enemy: any) {
-        if (player.alive) {
+        if (player.alive && !player.immune) {
             player.health -= 1; 
             // console.log(player.scene.healthBar.getChildren()[0], player.scene.healthBar.getChildren()[player.health]);
-
             
             if (player.health < 0) {
                 player.health = 0;
                 player.alive = false;
             } else {
-                player.scene.healthBar.getChildren()[player.health].setVisible(false);
+                if (player.scene.healthBar) {
+                    player.scene.healthBar.getChildren()[player.health].setVisible(false);
+                }
                 // Player goes to gameoverscene when dead but it doesn't work
                 // player.scene.start("GameOverScene");
             }
             // console.log(player.health, player.alive);
 
             // console.log(enemy.getVelocity());
+            player.immune = true;
+            const timedEvent = player.scene.time.delayedCall(1000, player.onHit, [], player);
         }
+    }
+
+    private onHit() {
+        this.immune = false;
     }
     
 
@@ -195,9 +204,19 @@ export default class Player extends Phaser.Physics.Arcade.Image {
      * @param item object out of items
      */
     public gainHealth(player: any, item: any) {
-        player.health += 1;
-        item.destroy();
-        
+        if (player.health < 5) {
+            player.health += 1;
+
+            const health = player.scene.healthBar.getChildren();
+            for (let i = 0; i < health.length; i++) {
+                const e = health[i];
+                if (e.visible === false) {
+                    e.visible = true;
+                    break;
+                }
+            }
+            item.destroy();
+        }
         // console.log(player.health);
     }
 

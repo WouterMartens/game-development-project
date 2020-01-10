@@ -17,6 +17,8 @@ export default class LevelScene extends Phaser.Scene {
 	private door: Door;
 	public hitDoor: boolean;
 	private levelSceneSound: any;
+	private lastBlinkTime: number;
+	private nextText: any;
  
 	constructor() {
 		super({ key: 'LevelScene' });
@@ -36,29 +38,33 @@ export default class LevelScene extends Phaser.Scene {
 		// 	runChildUpdate: true
 		// });
 		this.enemies = this.add.group({ classType: Enemy, runChildUpdate: true });
+
+		// Default the blinking text
+		this.lastBlinkTime = 0;
+
 	}
 
 	preload(): void {
 		// Rooms
-		this.load.image('room1', 'assets/img/room-1.png'); // the (background) image of the dungeon room
-		this.load.image('door', 'assets/img/door.png');	// the image of the door
+		this.load.image('room1', 'assets/img/room-1.png');
+		this.load.image('door', 'assets/img/door.png');
 
 		// Player
 		this.load.image('pedestrian', 'assets/img/pedestrian.png');  // the image of the player 
 
 		// Projectiles
-		this.load.image('thumb', 'assets/img/thumbs-up.png'); // the image of the thumbs up
+		this.load.image('thumb', 'assets/img/thumbs-up.png');
 
 		// Ground items
-		this.load.image('health', 'assets/img/candy.png');	// the image of the candy pickup
+		this.load.image('health', 'assets/img/candy.png');
 
 		// Enemies
-		this.load.image('happy', 'assets/img/happy.png'); // the image of the enemy emoji
-		this.load.image('smile', 'assets/img/slightlysmilingface.png'); // the image of the enemy emoji
-		this.load.image('neutral', 'assets/img/neutral.png'); // the image of the enemy emoji
-		this.load.image('frowning', 'assets/img/frowning.png'); // the image of the enemy emoji
-		this.load.image('angry', 'assets/img/angry.png'); // the image of the enemy emoji
-		this.load.image('pouting', 'assets/img/pouting.png'); // the image of the enemy emoji
+		this.load.image('happy', 'assets/img/happy.png');
+		this.load.image('smile', 'assets/img/slightlysmilingface.png');
+		this.load.image('neutral', 'assets/img/neutral.png');
+		this.load.image('frowning', 'assets/img/frowning.png');
+		this.load.image('angry', 'assets/img/angry.png');
+		this.load.image('pouting', 'assets/img/pouting.png');
 
 		// NPCs
 		this.load.image("businessMan", "assets/img/businessMan.png") // the image of the NPC
@@ -68,7 +74,11 @@ export default class LevelScene extends Phaser.Scene {
 		this.load.image("businessManTextBox2", "assets/img/businessManTextBox2.png") // the 2nd image of the NPC's text box
 		
 		// Audio
-		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3"); // the song playing in this scene
+		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3");
+
+		// Custom font
+		this.load.bitmapFont("dungeonFont", "assets/font/TheDungeonFont.png", "assets/font/TheDungeonFont.fnt");
+
 	}
 
 	create(): void {
@@ -146,13 +156,16 @@ export default class LevelScene extends Phaser.Scene {
 		
 		// Sets collision for player and NPC
 		if(this.physics.world.collide(this.player, [this.npc])){
+			this.nextText = this.add.bitmapText(this.sys.game.canvas.width / 2, 460, "dungeonFont", "druk op ENTER", 20).setOrigin(0.5, 0);
 			this.popupBox = this.physics.add.staticImage(this.sys.game.canvas.width / 2, this.sys.game.canvas.height /2, "businessManTextBox1")
 			// console.log(this.popupBox.texture.key);
 
 		};
 		if (this.nextKey.isDown) {
+			this.nextText.destroy(true);
 			this.popupBox = this.physics.add.staticImage(this.sys.game.canvas.width / 2, this.sys.game.canvas.height /2, "businessManTextBox2")
 		}
+
 		// if (this.nextKey.isDown && this.popupBox.texture.key === "businessManTextBox2") {
 		// 	this.popupBox.setVisible(false);
 		// }

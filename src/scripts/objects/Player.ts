@@ -179,12 +179,15 @@ export default class Player extends Phaser.Physics.Arcade.Image {
                 player.alive = false;
             } else {
                 player.scene.healthBar.getChildren()[player.health].setVisible(false);
+                // Player goes to gameoverscene when dead but it doesn't work
+                // player.scene.start("GameOverScene");
             }
             // console.log(player.health, player.alive);
 
             // console.log(enemy.getVelocity());
         }
     }
+    
 
     /**
      * Gain 1 health when picking up an item, then destroys the item

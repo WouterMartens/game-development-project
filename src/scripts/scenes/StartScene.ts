@@ -20,12 +20,22 @@ export default class StartScene extends Phaser.Scene {
     }
 
     preload(): void {
-        this.load.image("ghost", "assets/img/snapghost.png"); // the image of the ghost
-        this.load.image("background", "assets/img/startBackground.png"); // the background image for the scene
-        this.load.bitmapFont("dungeonFont", "assets/font/TheDungeonFont.png", "assets/font/TheDungeonFont.fnt"); // the custom font used
-        this.load.spritesheet('torchFrontSprite', 'assets/img/torch-front-spritesheet.png', { frameWidth: 80, frameHeight: 130, margin: 10, spacing: 10 }); // the front of torch for animation
-        this.load.spritesheet('torchSideSprite', 'assets/img/torch-side-spritesheet.png', { frameWidth: 60, frameHeight: 130, margin: 10, spacing: 10 }); // the side of torch for animation 
-        this.load.audio("startTheme", "assets/audio/bossTheme.mp3") // the music playing
+
+        // Ghost
+        this.load.image("ghost", "assets/img/snapghost.png");
+
+        // Background
+        this.load.image("background", "assets/img/startBackground.png");
+
+        // Custom font
+        this.load.bitmapFont("dungeonFont", "assets/font/TheDungeonFont.png", "assets/font/TheDungeonFont.fnt");
+
+        // Torches animation
+        this.load.spritesheet('torchFrontSprite', 'assets/img/torch-front-spritesheet.png', { frameWidth: 80, frameHeight: 130, margin: 10, spacing: 10 });
+        this.load.spritesheet('torchSideSprite', 'assets/img/torch-side-spritesheet.png', { frameWidth: 60, frameHeight: 130, margin: 10, spacing: 10 });
+        
+        // Audio
+        this.load.audio("startTheme", "assets/audio/bossTheme.mp3")
     }
 
     create(): void {

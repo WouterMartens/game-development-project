@@ -59,6 +59,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Image {
             //@ts-ignore
             this.scene.physics.moveToObject(this, this.scene.player, speed);
         }
+
         // console.log(this.body.velocity, this.isHit);
     }
 

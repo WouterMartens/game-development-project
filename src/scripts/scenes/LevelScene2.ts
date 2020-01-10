@@ -113,10 +113,15 @@ export default class LevelScene2 extends Phaser.Scene {
 	update(): void {
 		this.player.update();
 
+		if (this.player.alive === false) {
+			this.scene.start("GameOverScene");
+			this.levelSceneSound.stop();
+		}
+
 		if (this.hitDoor && this.enemies.children.size === 0) {
+			this.levelSceneSound.stop();
 			this.hitDoor = false;
 			this.scene.start("BossScene");
-			this.levelSceneSound.stop();
 		}
 	}
 

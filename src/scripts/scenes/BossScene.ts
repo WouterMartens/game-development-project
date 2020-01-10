@@ -51,7 +51,7 @@ export default class BossScene extends Phaser.Scene {
 		this.load.image("businessMan", "assets/img/businessMan.png") // the image of the NPC
 		
 		// Audio
-		this.load.audio("mainTheme", "assets/audio/mainTheme.mp3"); // the song playing in this scene
+		this.load.audio("bossTheme", "assets/audio/bossTheme.mp3"); // the song playing in this scene
 	}
 
 	create(): void {
@@ -105,12 +105,22 @@ export default class BossScene extends Phaser.Scene {
 		this.physics.world.on('worldbounds', this.onWorldBounds);
 
 		// Adds and plays music
-		this.levelSceneSound = this.sound.add("mainTheme");
+		this.levelSceneSound = this.sound.add("bossTheme");
         this.levelSceneSound.play();
 	}
 
 	update(): void {
 		this.player.update();
+
+		if (this.player.alive === false) {
+			this.scene.start("GameOverScene");
+			this.levelSceneSound.stop();
+		}
+
+		if (this.enemies.children.size === 0) {
+			this.scene.start("EndScene");
+			this.levelSceneSound.stop();
+		}
 	}
 
 	onWorldBounds(body: any) {

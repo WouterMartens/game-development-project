@@ -17,7 +17,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
 
     private health: number;
     private healthBar: Phaser.Physics.Arcade.Image;
-    private alive: boolean;
+    public alive: boolean;
     private immune: boolean;
 
     /**

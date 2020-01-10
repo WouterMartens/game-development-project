@@ -121,7 +121,7 @@ export default class StartScene extends Phaser.Scene {
         }
 
         // To make the start text blink
-        if (this.game.getTime() > this.lastBlinkTime + 500) {
+        if (this.game.getTime() > this.lastBlinkTime + 700) {
             this.gameOverText.setVisible(!this.gameOverText.visible);
             this.lastBlinkTime = this.game.getTime();
         }         

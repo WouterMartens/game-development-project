@@ -18,12 +18,12 @@ export default class BossScene extends Phaser.Scene {
 		super({ key: 'BossScene' });
 	}
 
-	init(): void {
+	public init(): void {
 		this.enemies = this.add.group({ classType: Boss, runChildUpdate: true });
 		this.items = this.add.group({ classType: Item });
 	}
 
-	preload(): void {
+	public preload(): void {
 		// Rooms
         this.load.image("background", "assets/img/startBackground.png"); // the background image for the scene
 
@@ -54,7 +54,7 @@ export default class BossScene extends Phaser.Scene {
 		this.load.audio("bossTheme", "assets/audio/bossTheme.mp3"); // the song playing in this scene
 	}
 
-	create(): void {
+	public create(): void {
 		// Adds background image
 		const bossScene = this.add.image(0, 0, 'background').setOrigin(0, 0);
 
@@ -109,7 +109,7 @@ export default class BossScene extends Phaser.Scene {
         this.levelSceneSound.play();
 	}
 
-	update(): void {
+	public update(): void {
 		this.player.update();
 
 		if (this.player.alive === false) {
@@ -123,7 +123,7 @@ export default class BossScene extends Phaser.Scene {
 		}
 	}
 
-	onWorldBounds(body: any) {
+	public onWorldBounds(body: any): void {
 		if (body.gameObject instanceof Projectile) {
 			body.gameObject.destroy(true);
 		}

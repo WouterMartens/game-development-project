@@ -24,11 +24,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Image {
         this.isHit = false;
     }
 
-    create(): void {
+    public create(): void {
         
     }
 
-    update(): void {
+    public update(): void {
         //const fr: number = 100 / this.states.length;
         if (!this.isBoss) {
             const fr: number = 20;

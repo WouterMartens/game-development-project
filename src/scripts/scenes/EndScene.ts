@@ -8,7 +8,7 @@ export default class EndScene extends Phaser.Scene {
         super({ key: 'EndScene' });
     }
 
-    init(): void {
+    public init(): void {
         // Initializer for keyboard input (S key)
         this.startOverKey = this.input.keyboard.addKey(
             Phaser.Input.Keyboard.KeyCodes.S);
@@ -18,7 +18,7 @@ export default class EndScene extends Phaser.Scene {
         this.lastBlinkTime = 0;
     }
 
-    preload(): void {
+    public preload(): void {
         // Background
         this.load.image("background", "assets/img/startBackground.png");
 
@@ -32,7 +32,7 @@ export default class EndScene extends Phaser.Scene {
         this.load.audio("endTheme", "assets/audio/bossTheme.mp3")
     }
 
-    create(): void {
+    public create(): void {
         this.add.image(this.sys.game.canvas.width / 2, 0, "background").setOrigin(0.5, 0); // background image
 
         this.endText = this.add.bitmapText(this.sys.game.canvas.width / 2, 280, "dungeonFont", "EINDE", 80).setOrigin(0.5, 0); 
@@ -91,7 +91,7 @@ export default class EndScene extends Phaser.Scene {
         this.endSceneSound.play();
     }
 
-    update(): void {
+    public update(): void {
         // Push S to start playing again
         if (this.startOverKey.isDown) {
             this.scene.start("StartScene");

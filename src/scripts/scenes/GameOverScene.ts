@@ -2,7 +2,7 @@ export default class StartScene extends Phaser.Scene {
     private startOverKey: Phaser.Input.Keyboard.Key;
     private gameOverText: Phaser.GameObjects.BitmapText;
     private gameOverSceneSound: any;
-    private lastBlinkTime: number;
+    private lastBlinkTime: number
     
     constructor() {
         super({ key: 'GameOverScene' });

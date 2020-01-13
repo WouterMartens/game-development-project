@@ -26,7 +26,7 @@ export default class LevelScene extends Phaser.Scene {
 		super({ key: 'LevelScene' });
 	}
 
-	init(): void {
+	public init(): void {
 		this.items = this.add.group({ classType: Item });
 
 		// this.enemies = this.add.group({ classType: Enemy });
@@ -46,7 +46,7 @@ export default class LevelScene extends Phaser.Scene {
 
 	}
 
-	preload(): void {
+	public preload(): void {
 		// Rooms
 		this.load.image('room1', 'assets/img/room-1.png');
 		this.load.image('door', 'assets/img/door.png');
@@ -84,7 +84,7 @@ export default class LevelScene extends Phaser.Scene {
 
 	}
 
-	create(): void {
+	public create(): void {
 		// Adds background image
 		const room1 = this.add.image(0, 0, 'room1').setOrigin(0, 0);
 
@@ -165,7 +165,7 @@ export default class LevelScene extends Phaser.Scene {
 		this.levelSceneSound.play();
 	}
 
-	update(): void {
+	public update(): void {
 		this.player.update();
 		
 		// Sets collision for player and NPC
@@ -199,7 +199,7 @@ export default class LevelScene extends Phaser.Scene {
 
 	}
 
-	onWorldBounds(body: any) {
+	public onWorldBounds(body: any) {
 		if (body.gameObject instanceof Projectile) {
 			body.gameObject.destroy(true);
 		}

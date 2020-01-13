@@ -1,6 +1,6 @@
 export default class Torch extends Phaser.Physics.Arcade.Image {
-    key: string;
-    startFrame: number;
+    public key: string;
+    public startFrame: number;
 
     constructor(params: any, startFrame: number) {
         super(params.scene, params.x, params.y, params.key, params.frame);
@@ -10,11 +10,7 @@ export default class Torch extends Phaser.Physics.Arcade.Image {
         this.startFrame = startFrame;
     }
 
-    init(): void {
-
-    }
-
-    preload(): void {
+    public preload(): void {
         if (this.key === "torchFrontSprite")  {
             this.scene.load.spritesheet('torchFrontSprite', 'assets/img/torch-front-spritesheet.png',
             { frameWidth: 80, frameHeight: 130, margin: 10, spacing: 10 });
@@ -24,7 +20,7 @@ export default class Torch extends Phaser.Physics.Arcade.Image {
         }
     }
 
-    create(): void {
+    public create(): void {
         const config = {
             key: this.key,
             frames: this.scene.anims.generateFrameNumbers(this.key, { start: 0, end: 3 }),
@@ -37,9 +33,4 @@ export default class Torch extends Phaser.Physics.Arcade.Image {
         torchAnimation.anims.play(this.key, true, this.startFrame);    
         
     }
-
-    update(): void {
-        
-    }
-
 }

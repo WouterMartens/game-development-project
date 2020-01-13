@@ -25,7 +25,7 @@ export default class ThumbsUp extends Phaser.Physics.Arcade.Image {
         this.flip(angle);
     }
 
-    flip(rotation: number): void {
+    public flip(rotation: number): void {
         switch(rotation) {
             case 135:
             case 180:

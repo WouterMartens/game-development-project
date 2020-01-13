@@ -59,17 +59,17 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         this.immune = false;
     }
 
-    preload(): void{
+    public preload(): void{
         //this.scene.load.audio('healthPickup', 'assets/audio/healthPickup.mp3');
         this.scene.load.image('heart', 'assets/img/heart.png');
     }
 
-    create(): void {
+    public create(): void {
         //this.scene.sound.add('healthPickup');
         this.scene.physics.add.image(100, 100, 'heart');
     }
 
-    update(): void {
+    public update(): void {
         this.inputListener();
 
         const callback = () => {
@@ -193,7 +193,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
         }
     }
 
-    private onHit() {
+    private onHit(): void {
         this.immune = false;
     }
     
@@ -203,7 +203,7 @@ export default class Player extends Phaser.Physics.Arcade.Image {
      * @param player Player object colliding with...
      * @param item object out of items
      */
-    public gainHealth(player: any, item: any) {
+    public gainHealth(player: any, item: any): void {
         if (player.health < 5) {
             player.health += 1;
 

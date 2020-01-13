@@ -20,7 +20,6 @@ export default class StartScene extends Phaser.Scene {
     }
 
     preload(): void {
-
         // Ghost
         this.load.image("ghost", "assets/img/snapghost.png");
 

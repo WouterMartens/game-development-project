@@ -10,7 +10,6 @@ export default class LevelScene2 extends Phaser.Scene {
 	public hitDoor: boolean;
 
 	public healthBar: Phaser.Physics.Arcade.StaticGroup;
-
 	private levelSceneSound: any;
  
 	constructor() {
